@@ -1,4 +1,11 @@
 {
+    "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  },
     "env": {
         "browser": false,
         "es2021": true,
