@@ -1,7 +1,9 @@
 const express = require('express');
-
 const app = express();
 const mongoose = require('mongoose');
+const path = require('path');
+const bookRoute = require('./routes/Route');
+const userRoutes = require('./routes/user');
 
 mongoose.connect(
   'mongodb+srv://laure:0808@cluster0.3vj1h.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0',
@@ -21,28 +23,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.post('/api/books', (req, res) => {
-  console.log(req.body);
-  res.status(201).json({ message: 'Objet créé !' });
-});
-
-app.get('/api/books', (req, res) => {
-  const books = [{
-    _id: 'oeihfzeoi',
-    title: 'Mon premier objet',
-    description: 'Les infos de mon premier objet',
-    imageUrl: 'https://cdn.pixabay.com/photo/2019/06/11/18/56/camera-4267692_1280.jpg',
-    userId: 'qsomihvqios',
-  },
-  {
-    _id: 'oeihfzeomoihi',
-    title: 'Mon deuxième objet',
-    description: 'Les infos de mon deuxième objet',
-    imageUrl: 'https://cdn.pixabay.com/photo/2019/06/11/18/56/camera-4267692_1280.jpg',
-    userId: 'qsomihvqios',
-  },
-  ];
-  res.status(200).json(books);
-});
-
+app.use('/api/books', bookRoute);
+app.use('/api/auth', userRoutes);
+app.use('/images', express.static(path.join(__dirname, 'images')));
 module.exports = app;
