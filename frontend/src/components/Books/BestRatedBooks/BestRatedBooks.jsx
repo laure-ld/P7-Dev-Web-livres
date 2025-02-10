@@ -1,14 +1,33 @@
-import React from 'react';
-import { useBestRatedBooks } from '../../../lib/customHooks';
+import React, { useState, useEffect } from 'react';
 import BookItem from '../BookItem/BookItem';
 import styles from './BestRatedBooks.module.css';
 
 function BestRatedBooks() {
-  const { bestRatedBooks } = useBestRatedBooks();
+  const [bestRatedBooks, setBestRatedBooks] = useState([]);
+
+  useEffect(() => {
+    async function fetchBestRatedBooks() {
+      try {
+        const response = await fetch('http://localhost:3000/api/books'); // Remplace par l’URL de ton API
+        const data = await response.json();
+
+        setBestRatedBooks(data); // Mets à jour l’état avec les livres récupérés
+      } catch (error) {
+        console.error('Erreur lors de la récupération :', error);
+      }
+    }
+    fetchBestRatedBooks();
+  }, []); // Le tableau vide [] assure que ça s'exécute une seule fois
+
+  function compareNumbers(a, b) {
+    return b.averageRating - a.averageRating;
+  }
 
   const bestRatedBooksContent = bestRatedBooks.length > 0 ? (
-    bestRatedBooks.map((elt) => <BookItem key={`book-${elt.id}`} book={elt} size={3} />)
-  ) : <h3>Aucune recommendation</h3>;
+    bestRatedBooks.sort(compareNumbers).slice(0, 3).map((elt) => <BookItem key={`book-${elt.id}`} book={elt} size={3} />)
+  ) : (
+    <h3>Aucune recommandation</h3>
+  );
 
   return (
     <section className={`content-container ${styles.BestRatedBooks}`}>
