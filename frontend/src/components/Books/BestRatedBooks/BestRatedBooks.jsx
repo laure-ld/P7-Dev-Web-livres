@@ -22,9 +22,10 @@ function BestRatedBooks() {
   function compareNumbers(a, b) {
     return b.averageRating - a.averageRating;
   }
-
   const bestRatedBooksContent = bestRatedBooks.length > 0 ? (
-    bestRatedBooks.sort(compareNumbers).slice(0, 3).map((elt) => <BookItem key={`book-${elt.id}`} book={elt} size={3} />)
+    bestRatedBooks.sort(compareNumbers).slice(0, 3).map((elt, index) => (
+      <BookItem key={`book-${elt.id || index}`} book={elt} size={3} />
+    ))
   ) : (
     <h3>Aucune recommandation</h3>
   );

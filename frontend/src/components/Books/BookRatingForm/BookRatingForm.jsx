@@ -9,7 +9,7 @@ import { useUser } from '../../../lib/customHooks';
 import { rateBook } from '../../../lib/common';
 
 function BookRatingForm({
-  rating, setRating, userId, setBook, id, userRated,
+  rating, setRating, userId, setBook, bookId, userRated,
 }) {
   const { connectedUser, auth } = useUser();
   const navigate = useNavigate();
@@ -30,11 +30,12 @@ function BookRatingForm({
     if (!connectedUser || !auth) {
       navigate(APP_ROUTES.SIGN_IN);
     }
-    const update = await rateBook(id, userId, rating);
+    console.log(bookId);
+    const update = await rateBook(bookId, userId, rating);
     console.log(update);
     if (update) {
       // eslint-disable-next-line no-underscore-dangle
-      setBook({ ...update, id: update._id });
+      setBook({ ...update, bookId: update._id });
     } else {
       alert(update);
     }
@@ -57,8 +58,8 @@ BookRatingForm.propTypes = {
   setRating: PropTypes.func.isRequired,
   userId: PropTypes.string.isRequired,
   setBook: PropTypes.func.isRequired,
-  id: PropTypes.string.isRequired,
   userRated: PropTypes.bool.isRequired,
+  bookId: PropTypes.string.isRequired,
 };
 
 export default BookRatingForm;
