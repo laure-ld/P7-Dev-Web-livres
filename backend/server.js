@@ -1,17 +1,12 @@
 const http = require('http');
 const app = require('./App');
 
-const normalizePort = (val) => {
+function normalizePort(val) {
   const port = parseInt(val, 10);
-
-  if (Number.isNaN(port)) {
-    return val;
-  }
-  if (port >= 0) {
-    return port;
-  }
+  if (isNaN(port)) return val; // Named pipe
+  if (port >= 0) return port; // Port number
   return false;
-};
+}
 
 const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
