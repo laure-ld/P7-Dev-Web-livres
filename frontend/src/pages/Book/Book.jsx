@@ -33,8 +33,6 @@ function Book() {
   useEffect(() => {
     if (!userLoading && connectedUser && book?.title) {
       const rate = book?.ratings?.find((elt) => elt.userId === connectedUser?.userId);
-      console.log("Book Data:", book);
-      console.log("Book Ratings:", book?.ratings);
       if (rate) {
         setUserRated(true);
         setRating(parseInt(rate.grade, 10));
@@ -53,7 +51,7 @@ function Book() {
     if (e.key && e.key !== 'Enter') {
       return;
     }
-    // eslint-disable-next-line no-restricted-globals
+    // eslint-disable-next-line no-alert
     const check = confirm('Etes vous sûr de vouloir supprimer ce livre ?');
     if (check) {
       const del = await deleteBook(book.id);
