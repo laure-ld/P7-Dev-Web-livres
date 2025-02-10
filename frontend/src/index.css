@@ -68,7 +68,7 @@ code {
   width: 100%;
   max-width: 1440px;
   margin:auto;
-
+  padding: 0 70px;
 }
 
 .content-container {
@@ -92,7 +92,7 @@ h1 {
   font-family: "Libre Baskerville", serif;
   font-size: 44px;
   font-style: italic;
-  color: #796157;
+  color: #2C1810;
 }
 
 button, .button {
