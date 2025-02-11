@@ -80,14 +80,16 @@ function Book() {
             </div>
           ) : null}
           <BookInfo book={book} />
-          <BookRatingForm
-            userRated={userRated}
-            userId={connectedUser?.userId}
-            rating={rating}
-            setRating={setRating}
-            setBook={setBook}
-            id={book.id}
-          />
+          {book?.id && (
+            <BookRatingForm
+              userRated={userRated}
+              userId={connectedUser?.userId}
+              rating={rating}
+              setRating={setRating}
+              setBook={setBook}
+              id={book.id}
+            />
+          )}
         </div>
       </div>
       <hr />
