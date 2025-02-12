@@ -1,4 +1,4 @@
-const Book = require('/Users/laureloda/Desktop/P7-Dev-Web-livres/backend/models/books');
+const Book = require('../models/Books');
 const fs = require('fs');
 
 exports.createBook = (req, res, next) => {
