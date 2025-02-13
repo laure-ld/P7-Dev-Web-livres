@@ -8,17 +8,15 @@ function BestRatedBooks() {
   useEffect(() => {
     async function fetchBestRatedBooks() {
       try {
-        const response = await fetch('http://localhost:3000/api/books'); // Remplace par l’URL de ton API
+        const response = await fetch('http://localhost:3000/api/books');
         const data = await response.json();
-
-        setBestRatedBooks(data); // Mets à jour l’état avec les livres récupérés
+        setBestRatedBooks(data);
       } catch (error) {
         console.error('Erreur lors de la récupération :', error);
       }
     }
     fetchBestRatedBooks();
-  }, []); // Le tableau vide [] assure que ça s'exécute une seule fois
-
+  }, []);
   function compareNumbers(a, b) {
     return b.averageRating - a.averageRating;
   }
@@ -29,7 +27,6 @@ function BestRatedBooks() {
   ) : (
     <h3>Aucune recommandation</h3>
   );
-
   return (
     <section className={`content-container ${styles.BestRatedBooks}`}>
       <h2>Les mieux notés</h2>
