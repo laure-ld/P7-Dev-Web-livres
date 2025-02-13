@@ -89,25 +89,33 @@ exports.getAllBook = (req, res, next) => {
 
 exports.bestRating = async (req, res) => {
   try {
-    const bestBooks = await Book.find()
+    const { id } = req.query; // Récupération de l'ID du livre à exclure
+
+    console.log("ID à exclure :", id); // Debugging
+
+    const filter = id ? { _id: { $ne: id } } : {}; // Exclure le livre si un ID est fourni
+
+    const bestBooks = await Book.find(filter)
       .sort({ averageRating: -1 })
       .limit(3);
-
     res.status(200).json(bestBooks);
+    
   } catch (error) {
+    console.error('Erreur dans bestRating:', error);
     res.status(500).json({ error: error.message });
   }
 };
+
 
 exports.rating = async (req, res) => {
   try {
     const { userId, rating } = req.body;
     const bookId = req.params.id;
 
+    // Vérification de la validité de la note
     if (rating < 0 || rating > 5) {
       return res.status(400).json({ message: "La note doit être comprise entre 0 et 5." });
     }
-
     const book = await Book.findById(bookId);
     if (!book) {
       return res.status(404).json({ message: "Livre non trouvé." });
