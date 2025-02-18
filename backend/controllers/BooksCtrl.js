@@ -107,10 +107,11 @@ exports.bestRating = async (req, res) => {
 exports.rating = async (req, res) => {
   try {
     const { userId, rating } = req.body;
+    const grade = Array.isArray(rating) ? rating[0].grade : rating;
     const bookId = req.params.id;
 
-    if (rating < 0 || rating > 5) {
-      return res.status(400).json({ message: "La note doit être comprise entre 0 et 5." });
+    if (rating < 1 || rating > 5) {
+      return res.status(400).json({ message: "La note doit être comprise entre 1 et 5." });
     }
     const book = await Book.findById(bookId);
     if (!book) {
@@ -120,15 +121,15 @@ exports.rating = async (req, res) => {
       book.rating = [];
     }
 
-    const alreadyRated = book.rating.some(r => r.userId === userId);
+    const alreadyRated = book.rating.some(r => r.userId.toString() === userId.toString());
     if (alreadyRated) {
       return res.status(400).json({ message: "Vous avez déjà noté ce livre." });
     }
-
-    book.rating.push({ userId, grade: rating });
+    
+    book.rating.push({ userId, grade });
     const totalRatings = book.rating.length;
     const sumRatings = book.rating.reduce((sum, r) => sum + r.grade, 0);
-    book.averageRating = sumRatings / totalRatings;
+    book.averageRating =  Math.round(sumRatings / totalRatings);
     await book.save();
 
     res.status(200).json(book);
