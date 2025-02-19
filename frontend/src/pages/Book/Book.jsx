@@ -32,7 +32,7 @@ function Book() {
 
   useEffect(() => {
     if (!userLoading && connectedUser && book?.title) {
-      const rate = book?.ratings?.find((elt) => elt.userId === connectedUser?.userId);
+      const rate = book?.rating?.find((elt) => elt.userId === connectedUser?.userId);
       if (rate) {
         setUserRated(true);
         setRating(parseInt(rate.grade, 10));
@@ -62,7 +62,6 @@ function Book() {
   };
 
   const loadingContent = (<h1>Chargement ...</h1>);
-
   const bookContent = !loading && !book.delete ? (
     <div>
       <div className={styles.Book}>
